@@ -10,15 +10,15 @@ const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const CommitBoxContainer: React.FC<CommitBoxContainerProps> = ({ selectedYear }) => {
   const [isDragging, setDragging] = useState(false);
-  const [grid, setGrid] = useState<(0 | 1)[][]>([]);
+  const [grid, setGrid] = useState<(0 | 1 | 2)[][]>([]);
 
-  const createEmptyGrid = () => { 
+  const createEmptyGrid = () => {
     const daysOfWeek = getDaysOfWeekCount(selectedYear);
     const firstDay = getFirstDayOfYear(selectedYear);
 
     // Create an empty grid for 7 rows and 53 columns
-    const emptyGrid: (0 | 1)[][] = Array.from({ length: 7 }, () =>
-      Array.from({ length: 53 }, () => 0)
+    const emptyGrid: (0 | 1 | 2)[][] = Array.from({ length: 7 }, () =>
+      Array.from({ length: 53 }, () => 0) // 0 means empty cell
     );
 
     // Calculate the starting day index (0 = Sunday, ..., 6 = Saturday)
@@ -32,21 +32,33 @@ const CommitBoxContainer: React.FC<CommitBoxContainerProps> = ({ selectedYear })
         if (dayCounter >= Object.values(daysOfWeek).reduce((a, b) => a + b, 0)) {
           break;
         } // End after all days
-        emptyGrid[row][col] = 1; // Example placeholder; replace with actual commit data
+        emptyGrid[row][col] = 1; // Default state (inactive, white)
         dayCounter++;
       }
     }
 
     setGrid(emptyGrid);
-  }
+  };
+
   useEffect(() => {
     createEmptyGrid();
   }, [selectedYear]);
 
-  
+  // Clear the grid (reset to initial state)
+  const clearGrid = () => {
+    console.log("Clearing the grid...");
+    createEmptyGrid();
+  };
 
   return (
     <div className="flex flex-col items-center">
+      {/* Clear Button */}
+      <button
+        onClick={clearGrid}
+        className="mb-4 p-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+      >
+        Clear Grid
+      </button>
 
       {/* Table Header */}
       <table className="table-fixed border-separate border-spacing-1">
@@ -68,9 +80,10 @@ const CommitBoxContainer: React.FC<CommitBoxContainerProps> = ({ selectedYear })
               {grid[rowIndex]?.map((level, colIndex) => (
                 <td key={colIndex}>
                   {level === 0 ? (
-                    <div className="w-4 h-4"></div> // Render empty div for 0
+                    <div className="w-4 h-4"></div> // Empty div for 0
                   ) : (
                     <CommitBox
+                      level={level}
                       isDragging={isDragging}
                       setDragging={setDragging}
                     />
@@ -81,13 +94,6 @@ const CommitBoxContainer: React.FC<CommitBoxContainerProps> = ({ selectedYear })
           ))}
         </tbody>
       </table>
-      {/* Clear Button */}
-      <button
-        onClick={() => createEmptyGrid()}
-        className="mb-4 p-2 bg-red-500 text-white rounded-md hover:bg-red-600"
-      >
-        Clear Grid
-      </button>
     </div>
   );
 };

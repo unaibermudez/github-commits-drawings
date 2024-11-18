@@ -1,18 +1,19 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 type CommitBoxProps = {
+  level: 1 | 2;  // Only two states: 1 (inactive) or 2 (active)
   isDragging: boolean;
   setDragging: (dragging: boolean) => void;
 };
 
-const CommitBox: React.FC<CommitBoxProps> = ({ isDragging, setDragging }) => {
-  // State to track if the box is active (green) or not (white)
-  const [isActive, setIsActive] = useState(false);
+const CommitBox: React.FC<CommitBoxProps> = ({ level, isDragging, setDragging }) => {
+  // State to track if the box is active (green)
+  const [isActive, setIsActive] = useState(level === 2); // Start as active if level is 2
 
-  // Colors for the states
+  // Colors based on activity level
   const colors = {
-    inactive: 'bg-white',  // Inactive state (white)
-    active: 'bg-green-500' // Active state (green)
+    inactive: "bg-white",  // Inactive state (white)
+    active: "bg-green-500", // Active state (green)
   };
 
   // Toggle the active state on mouse events
