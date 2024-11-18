@@ -6,18 +6,18 @@ type CommitBoxContainerProps = {
   selectedYear: number;
 };
 
-const weekDays = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const CommitBoxContainer: React.FC<CommitBoxContainerProps> = ({ selectedYear }) => {
   const [isDragging, setDragging] = useState(false);
-  const [grid, setGrid] = useState<(0 | 1 | 2 | 3 | 4)[][]>([]);
+  const [grid, setGrid] = useState<(0 | 1)[][]>([]);
 
-  useEffect(() => {
+  const createEmptyGrid = () => { 
     const daysOfWeek = getDaysOfWeekCount(selectedYear);
     const firstDay = getFirstDayOfYear(selectedYear);
 
     // Create an empty grid for 7 rows and 53 columns
-    const emptyGrid: (0 | 1 | 2 | 3 | 4)[][] = Array.from({ length: 7 }, () =>
+    const emptyGrid: (0 | 1)[][] = Array.from({ length: 7 }, () =>
       Array.from({ length: 53 }, () => 0)
     );
 
@@ -30,18 +30,24 @@ const CommitBoxContainer: React.FC<CommitBoxContainerProps> = ({ selectedYear })
       for (let row = 0; row < 7; row++) {
         if (col === 0 && row < startDayIndex) continue; // Skip cells before the first day
         if (dayCounter >= Object.values(daysOfWeek).reduce((a, b) => a + b, 0)) {
-            break;
-        }; // End after all days
+          break;
+        } // End after all days
         emptyGrid[row][col] = 1; // Example placeholder; replace with actual commit data
         dayCounter++;
       }
     }
 
     setGrid(emptyGrid);
+  }
+  useEffect(() => {
+    createEmptyGrid();
   }, [selectedYear]);
+
+  
 
   return (
     <div className="flex flex-col items-center">
+
       {/* Table Header */}
       <table className="table-fixed border-separate border-spacing-1">
         <thead>
@@ -75,6 +81,13 @@ const CommitBoxContainer: React.FC<CommitBoxContainerProps> = ({ selectedYear })
           ))}
         </tbody>
       </table>
+      {/* Clear Button */}
+      <button
+        onClick={() => createEmptyGrid()}
+        className="mb-4 p-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+      >
+        Clear Grid
+      </button>
     </div>
   );
 };
