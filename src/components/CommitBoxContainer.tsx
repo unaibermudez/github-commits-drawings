@@ -18,7 +18,7 @@ const CommitBoxContainer: React.FC<CommitBoxContainerProps> = ({ selectedYear })
 
     // Create an empty grid for 7 rows and 52 columns
     const emptyGrid: (0 | 1 | 2 | 3 | 4)[][] = Array.from({ length: 7 }, () =>
-      Array.from({ length: 52 }, () => 0)
+      Array.from({ length: 53 }, () => 0)
     );
 
     // Calculate the starting day index (0 = Monday, ..., 6 = Sunday)
@@ -26,10 +26,12 @@ const CommitBoxContainer: React.FC<CommitBoxContainerProps> = ({ selectedYear })
 
     // Populate the grid based on the year's days
     let dayCounter = 0;
-    for (let col = 0; col < 52; col++) {
+    for (let col = 0; col < 53; col++) {
       for (let row = 0; row < 7; row++) {
         if (col === 0 && row < startDayIndex) continue; // Skip cells before the first day
-        if (dayCounter >= Object.values(daysOfWeek).reduce((a, b) => a + b, 0)) break; // End after all days
+        if (dayCounter >= Object.values(daysOfWeek).reduce((a, b) => a + b, 0)) {
+            break;
+        }; // End after all days
         emptyGrid[row][col] = 1; // Example placeholder; replace with actual commit data
         dayCounter++;
       }
