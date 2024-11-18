@@ -1,80 +1,75 @@
-// src/components/CommitBoxContainer.tsx
-
-import { useEffect, useState } from 'react';
-import CommitBox from './CommitBox';
+import { useEffect, useState } from "react";
+import CommitBox from "./CommitBox";
+import { getDaysOfWeekCount, getFirstDayOfYear } from "../utils/years";
 
 type CommitBoxContainerProps = {
   selectedYear: number;
 };
 
+const weekDays = [ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 const CommitBoxContainer: React.FC<CommitBoxContainerProps> = ({ selectedYear }) => {
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const weekDays = ["Mon", "Wed", "Fri"];
-
-  // Track drag state
   const [isDragging, setDragging] = useState(false);
-
-  const [commitData, setCommitData] = useState<(0 | 1 | 2 | 3 | 4)[]>([]);
+  const [grid, setGrid] = useState<(0 | 1 | 2 | 3 | 4)[][]>([]);
 
   useEffect(() => {
-    const isLeapYear = (selectedYear % 4 === 0 && (selectedYear % 100 !== 0 || selectedYear % 400 === 0));
-    const daysInYear = isLeapYear ? 366 : 365;
+    const daysOfWeek = getDaysOfWeekCount(selectedYear);
+    const firstDay = getFirstDayOfYear(selectedYear);
 
-    const data = Array(daysInYear).fill(0) as (0 | 1 | 2 | 3 | 4)[];
-    setCommitData(data);
+    // Create an empty grid for 7 rows and 52 columns
+    const emptyGrid: (0 | 1 | 2 | 3 | 4)[][] = Array.from({ length: 7 }, () =>
+      Array.from({ length: 52 }, () => 0)
+    );
 
-    const firstDayOfWeek = new Date(selectedYear, 0, 1).getDay();
-    console.log(`Primer día del año ${selectedYear}:`, ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][firstDayOfWeek]);
-    console.log("Días en el año:", daysInYear);
+    // Calculate the starting day index (0 = Monday, ..., 6 = Sunday)
+    const startDayIndex = weekDays.indexOf(firstDay.slice(0, 3));
+
+    // Populate the grid based on the year's days
+    let dayCounter = 0;
+    for (let col = 0; col < 52; col++) {
+      for (let row = 0; row < 7; row++) {
+        if (col === 0 && row < startDayIndex) continue; // Skip cells before the first day
+        if (dayCounter >= Object.values(daysOfWeek).reduce((a, b) => a + b, 0)) break; // End after all days
+        emptyGrid[row][col] = 1; // Example placeholder; replace with actual commit data
+        dayCounter++;
+      }
+    }
+
+    setGrid(emptyGrid);
   }, [selectedYear]);
 
   return (
     <div className="flex flex-col items-center">
-      {/* Tabla de commits */}
+      {/* Table Header */}
       <table className="table-fixed border-separate border-spacing-1">
-        {/* <thead>
+        <thead>
           <tr>
-            <th></th> 
-            {months.map((month, index) => (
-              <>
-                <th key={month} className="text-white text-xs font-medium ">{month}</th>
-                {index < months.length - 1 && (
-                  <>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                  </>
-                )} 
-              </>
+            <th></th>
+            {Array.from({ length: 12 }).map((_, index) => (
+              <th key={index} colSpan={4} className="text-white text-xs font-medium">
+                {/* Placeholder for months */}
+              </th>
             ))}
           </tr>
-        </thead> */}
-
+        </thead>
         <tbody>
-          {Array.from({ length: 7 }).map((_, rowIndex) => (
+          {weekDays.map((day, rowIndex) => (
             <tr key={rowIndex}>
-              {rowIndex % 2 === 0 ? (
-                <td className="text-white text-xs font-medium">{weekDays[rowIndex / 2]}</td>
-              ) : (
-                <td></td>
-              )}
-
-              {Array.from({ length: 52 }).map((_, colIndex) => {
-                const dayIndex = colIndex * 7 + rowIndex;
-                return (
-                  <td key={colIndex} >
-                    {dayIndex < commitData.length ? (
-                      <CommitBox
-                        level={commitData[dayIndex] || 0}
-                        isDragging={isDragging}
-                        setDragging={setDragging}
-                      />
-                    ) : (
-                      <div className="w-4 h-4"></div>
-                    )}
-                  </td>
-                );
-              })}
+              {/* Day of the week */}
+              <td className="text-white text-xs font-medium">{day}</td>
+              {grid[rowIndex]?.map((level, colIndex) => (
+                <td key={colIndex}>
+                  {level === 0 ? (
+                    <div className="w-4 h-4"></div> // Render empty div for 0
+                  ) : (
+                    <CommitBox
+                      level={level}
+                      isDragging={isDragging}
+                      setDragging={setDragging}
+                    />
+                  )}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>

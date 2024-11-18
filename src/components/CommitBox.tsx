@@ -14,7 +14,7 @@ const CommitBox: React.FC<CommitBoxProps> = ({ level, isDragging, setDragging })
 
   // Colors based on activity level, with active green as an override
   const colors = {
-    0: 'bg-gray-200',    // No activity
+    0: 'bg-white-200',    // No activity
     1: 'bg-green-200',   // Low
     2: 'bg-green-400',   // Medium
     3: 'bg-green-600',   // High
