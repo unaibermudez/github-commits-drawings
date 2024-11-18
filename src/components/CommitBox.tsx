@@ -1,25 +1,18 @@
-// src/components/CommitBox.tsx
-
 import { useState } from 'react';
 
 type CommitBoxProps = {
-  level: 0 | 1 | 2 | 3 | 4;
   isDragging: boolean;
   setDragging: (dragging: boolean) => void;
 };
 
-const CommitBox: React.FC<CommitBoxProps> = ({ level, isDragging, setDragging }) => {
-  // State to track if the box is active (green)
+const CommitBox: React.FC<CommitBoxProps> = ({ isDragging, setDragging }) => {
+  // State to track if the box is active (green) or not (white)
   const [isActive, setIsActive] = useState(false);
 
-  // Colors based on activity level, with active green as an override
+  // Colors for the states
   const colors = {
-    0: 'bg-white-200',    // No activity
-    1: 'bg-green-200',   // Low
-    2: 'bg-green-400',   // Medium
-    3: 'bg-green-600',   // High
-    4: 'bg-green-800',   // Very high
-    active: 'bg-green-500' // Active (colored)
+    inactive: 'bg-white',  // Inactive state (white)
+    active: 'bg-green-500' // Active state (green)
   };
 
   // Toggle the active state on mouse events
@@ -43,7 +36,7 @@ const CommitBox: React.FC<CommitBoxProps> = ({ level, isDragging, setDragging })
       onMouseDown={handleMouseDown}
       onMouseEnter={handleMouseEnter}
       onMouseUp={handleMouseUp}
-      className={`w-4 h-4 ${isActive ? colors.active : colors[level]} rounded-sm cursor-pointer`}
+      className={`w-4 h-4 ${isActive ? colors.active : colors.inactive} rounded-sm cursor-pointer`}
     ></div>
   );
 };

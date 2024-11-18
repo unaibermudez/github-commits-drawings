@@ -16,12 +16,12 @@ const CommitBoxContainer: React.FC<CommitBoxContainerProps> = ({ selectedYear })
     const daysOfWeek = getDaysOfWeekCount(selectedYear);
     const firstDay = getFirstDayOfYear(selectedYear);
 
-    // Create an empty grid for 7 rows and 52 columns
+    // Create an empty grid for 7 rows and 53 columns
     const emptyGrid: (0 | 1 | 2 | 3 | 4)[][] = Array.from({ length: 7 }, () =>
       Array.from({ length: 53 }, () => 0)
     );
 
-    // Calculate the starting day index (0 = Monday, ..., 6 = Sunday)
+    // Calculate the starting day index (0 = Sunday, ..., 6 = Saturday)
     const startDayIndex = weekDays.indexOf(firstDay.slice(0, 3));
 
     // Populate the grid based on the year's days
@@ -65,7 +65,6 @@ const CommitBoxContainer: React.FC<CommitBoxContainerProps> = ({ selectedYear })
                     <div className="w-4 h-4"></div> // Render empty div for 0
                   ) : (
                     <CommitBox
-                      level={level}
                       isDragging={isDragging}
                       setDragging={setDragging}
                     />
