@@ -1,50 +1,76 @@
-# React + TypeScript + Vite
+# GitHub Commit Grid Creator
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a web application that allows users to create a visual representation of their GitHub commit history in a grid format. The application is built using React, TypeScript, and Tailwind CSS for the frontend, and Express for the backend.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Scripts](#scripts)
+- [Folder Structure](#folder-structure)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Visualize GitHub commit history in a grid format.
+- Select a year to display the commit history.
+- Export the commit grid data as JSON.
+- Responsive design with a modal for mobile users.
+- Randomize, fill, and clear the grid.
 
-- Configure the top-level `parserOptions` property like this:
+## Installation
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+1. Clone the repository:
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+   ```sh
+   git clone https://github.com/your-username/github-commit-grid-creator.git
+   cd github-commit-grid-creator
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+2. Install the dependencies for both frontend and backend:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+   ```sh
+   cd frontend
+   npm install
+   cd ../backend
+   npm install
+   ```
+
+## Usage
+
+1. Start the backend server:
+
+   ```sh
+   cd backend
+   npm start
+   ```
+
+2. Start the frontend development server:
+
+   ```sh
+   cd frontend
+   npm run dev
+   ```
+
+3. Open your browser and navigate to `http://localhost:3000` to use the application.
+
+## Scripts
+
+- `npm run dev`: Start the development server.
+- `npm run build`: Build the application for production.
+- `npm run lint`: Run ESLint to check for linting errors.
+- `npm run preview`: Preview the production build.
+
+## Folder Structure
+
+- `frontend/`: Contains the frontend code.
+- `backend/`: Contains the backend code.
+
+## Contributing
+
+Contributions are welcome! Please open an issue or submit a pull request for any changes.
+
+## License
+
+This project is licensed under the MIT License.
