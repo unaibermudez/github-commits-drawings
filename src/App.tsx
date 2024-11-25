@@ -1,13 +1,13 @@
-
 import Header from './components/Header';
 import Home from './components/Home';
+import { GridProvider } from './context/GridContext';
 
 function App() {
   return (
-    <div>
-      <Header />
-      <Home />
-    </div>
+    <GridProvider>
+        <Header />
+        <Home />
+    </GridProvider>
   );
 }
 
