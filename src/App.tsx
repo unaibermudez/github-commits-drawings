@@ -9,6 +9,7 @@ function App() {
     <GridProvider>
         <Header />
         <Home />
+       
     </GridProvider>
   );
 }

@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { exportGridData } from "../API/apiService";
 import { useGridContext } from "../context/GridContext";
 import CommitBox from "./CommitBox";
@@ -50,15 +51,15 @@ const CommitBoxContainer: React.FC = () => {
       days: gridData, // Array of 1s and 0s representing the grid
     };
 
-    console.log(JSON.stringify(json, null, 2)); // Print formatted JSON to console
+    // console.log(JSON.stringify(json, null, 2)); // Print formatted JSON to console
     dispatch({ type: "EXPORT_GRID", payload: json }); // Store the exported data in the global state
     
     // Call the mock API with the exported data using axios
     try {
       const apiResponse = await exportGridData(json);
-      console.log('Data exported successfully:', apiResponse);
+      toast.success(apiResponse.message); // Show a success toast message
     } catch (error) {
-      console.error('Failed to export data:', error);
+      toast.error("Error exporting data. Please try again."); // Show an error toast message
     }
 
     handleClearGrid(); // Clear the grid after exporting
