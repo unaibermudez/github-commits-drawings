@@ -1,8 +1,12 @@
 import { useGridContext } from "../context/GridContext";
 import CommitBox from "./CommitBox";
-import { useState } from "react";
+import { useState} from "react";
 
 const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const months = [
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
 
 const CommitBoxContainer: React.FC = () => {
   const { state, dispatch } = useGridContext();
@@ -26,6 +30,7 @@ const CommitBoxContainer: React.FC = () => {
     dispatch({ type: "CLEAR_GRID" })
     dispatch({ type: "RANDOMIZE_CELLS" });
   };
+
   // Function to export the grid as JSON
   const handleExportGrid = () => {
     const gridData: number[] = [];
@@ -59,10 +64,8 @@ const CommitBoxContainer: React.FC = () => {
         <thead>
           <tr>
             <th></th>
-            {Array.from({ length: 12 }).map((_, index) => (
-              <th key={index} colSpan={4} className="text-white text-xs font-medium">
-                {/* Placeholder for months */}
-              </th>
+            {months.map((month, index) => (
+              <th key={index} colSpan={4} className="text-white text-xs font-medium">{month}</th>
             ))}
           </tr>
         </thead>
@@ -88,6 +91,7 @@ const CommitBoxContainer: React.FC = () => {
           ))}
         </tbody>
       </table>
+
       <div className="flex w-full justify-between my-6">
         <div className="flex space-x-4">
           <button

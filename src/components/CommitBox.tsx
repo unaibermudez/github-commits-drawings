@@ -1,4 +1,5 @@
 import { useGridContext } from "../context/GridContext";
+import { getDateFromGridPosition } from "../utils/years";
 
 type CommitBoxProps = {
   row: number;
@@ -46,6 +47,8 @@ const CommitBox: React.FC<CommitBoxProps> = ({ row, col, isDragging, setIsDraggi
       onMouseEnter={handleMouseEnter}
       onMouseUp={handleMouseUp}
       className={`w-4 h-4 ${cellValue === 1 ? "bg-green-500" : "bg-white"} rounded-sm cursor-pointer`}
+      // title={`Cell (${col}, ${row})`}
+      title={getDateFromGridPosition(state.selectedYear, col, row)}
     ></div>
   );
 };
