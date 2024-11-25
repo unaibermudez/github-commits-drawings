@@ -23,23 +23,16 @@ const gridReducer = (state: GridState, action: Action): GridState => {
     case "INITIALIZE_GRID": {
       const { year } = action.payload;
 
-      // Create an empty grid (7 rows x 53 columns) initialized with `null`.
       const newGrid: GridCell[][] = Array.from({ length: ROWS }, () =>
         Array.from({ length: COLS }, () => null)
       );
 
-      // Calculate the total days in the year using utility function.
       const totalDays = getTotalDaysInYear(year);
-
-      // Get the first day of the year using utility function.
       const firstDay = getFirstDayOfYear(year); // Example: "Sunday"
-
-      // Map "Sunday" to a numeric index (0 = Sunday, 6 = Saturday).
       const startDayIndex = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"].indexOf(firstDay);
 
       let dayCounter = 0;
 
-      // Populate the grid based on the total days and the first day index.
       for (let col = 0; col < COLS; col++) {
         for (let row = 0; row < ROWS; row++) {
           if (col === 0 && row < startDayIndex) continue; // Skip cells before the first day.
