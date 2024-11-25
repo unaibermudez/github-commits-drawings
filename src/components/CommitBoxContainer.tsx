@@ -8,16 +8,24 @@ const CommitBoxContainer: React.FC = () => {
   const { state, dispatch } = useGridContext();
   const [isDragging, setIsDragging] = useState(false);
 
-  // Mouse up event to stop dragging
+  const exportDisabled = state.grid.every(row => row.every(cell => cell === null || cell === 0));
+
   const handleMouseUp = () => {
     setIsDragging(false); // Stop dragging
   };
 
-  // Handle the clear button click to reset the grid
   const handleClearGrid = () => {
     dispatch({ type: "CLEAR_GRID" });
   };
 
+  const handlePaintAllCells = () => {
+    dispatch({ type: "PAINT_ALL_CELLS", payload: { value: 1 } });
+  }
+
+  const handleRandomizeCells = () => {
+    dispatch({ type: "CLEAR_GRID" })
+    dispatch({ type: "RANDOMIZE_CELLS" });
+  };
   // Function to export the grid as JSON
   const handleExportGrid = () => {
     const gridData: number[] = [];
@@ -80,22 +88,35 @@ const CommitBoxContainer: React.FC = () => {
           ))}
         </tbody>
       </table>
-      <div className="flex space-x-4 my-4">
-        <button
-          onClick={handleClearGrid}
-          className="bg-red-500 text-xl font-bold uppercase text-white px-4 py-2 rounded-md"
-        >
-          Clear Grid
-        </button>
+      <div className="flex w-full justify-between my-6">
+        <div className="flex space-x-4">
+          <button
+            onClick={handlePaintAllCells}
+            className="bg-green-500 font-bold uppercase text-white px-4 py-2 rounded-md"
+          >
+            Fill Grid
+          </button>
+          <button
+            onClick={handleRandomizeCells}
+            className="bg-orange-500 font-bold uppercase text-white px-4 py-2 rounded-md"
+          >
+            Random Pattern
+          </button>
+          <button
+            onClick={handleClearGrid}
+            className="bg-red-500 font-bold uppercase text-white px-4 py-2 rounded-md"
+          >
+            Clear Grid
+          </button>
+        </div>
         <button
           onClick={handleExportGrid}
-          className="bg-blue-500 text-xl font-bold uppercase text-white px-4 py-2 rounded-md"
+          disabled={exportDisabled}
+          className={`bg-blue-500 font-bold uppercase text-white px-4 py-2 rounded-md ${exportDisabled && 'opacity-50 cursor-not-allowed'}`}
         >
           Export Grid
         </button>
-
       </div>
-
     </div>
   );
 };

@@ -15,7 +15,10 @@ type GridState = {
 type Action =
   | { type: "INITIALIZE_GRID"; payload: { year: number } }
   | { type: "UPDATE_CELL"; payload: { row: number; col: number; value: 0 | 1 } }
-  | { type: "CLEAR_GRID" };
+  | { type: "CLEAR_GRID" }
+  | { type: "PAINT_ALL_CELLS"; payload: { value: 0 | 1 } }
+  | { type: "RANDOMIZE_CELLS" };
+
 
 // Reducer function
 const gridReducer = (state: GridState, action: Action): GridState => {
@@ -60,6 +63,21 @@ const gridReducer = (state: GridState, action: Action): GridState => {
         row.map((cell) => (cell === null ? null : 0))
       );
       return { ...state, grid: clearedGrid };
+    }
+
+    case "PAINT_ALL_CELLS": {
+      const { value } = action.payload;
+      const paintedGrid = state.grid.map((row) =>
+        row.map((cell) => (cell === null ? null : value)) // Set all non-null cells to the value (0 or 1)
+      );
+      return { ...state, grid: paintedGrid };
+    }
+
+    case "RANDOMIZE_CELLS": {
+      const randomizedGrid = state.grid.map((row) =>
+        row.map((cell) => (cell === null ? null : Math.random() > 0.5 ? 1 : 0)) // Randomly assign 0 or 1, leave null as null
+      );
+      return { ...state, grid: randomizedGrid };
     }
 
     default:
