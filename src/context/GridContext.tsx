@@ -8,17 +8,19 @@ const COLS = 53;
 // Types for grid state
 type GridCell = null | 0 | 1;
 type GridState = {
-  grid: GridCell[][];
-  selectedYear: number;
+  grid: GridCell[][]; // The grid itself
+  selectedYear: number; // The currently selected year
+  exportedData: { year: number; days: number[] } | null; // Store exported data (year and array of 0s and 1s)
 };
 
+// Types for actions
 type Action =
   | { type: "INITIALIZE_GRID"; payload: { year: number } }
   | { type: "UPDATE_CELL"; payload: { row: number; col: number; value: 0 | 1 } }
   | { type: "CLEAR_GRID" }
   | { type: "PAINT_ALL_CELLS"; payload: { value: 0 | 1 } }
-  | { type: "RANDOMIZE_CELLS" };
-
+  | { type: "RANDOMIZE_CELLS" }
+  | { type: "EXPORT_GRID"; payload: { year: number; days: number[] } }; // New action for exporting grid
 
 // Reducer function
 const gridReducer = (state: GridState, action: Action): GridState => {
@@ -45,7 +47,7 @@ const gridReducer = (state: GridState, action: Action): GridState => {
         }
       }
 
-      return { ...state, grid: newGrid, selectedYear: year };
+      return { ...state, grid: newGrid, selectedYear: year, exportedData: null }; // Clear exported data when initializing grid
     }
 
     case "UPDATE_CELL": {
@@ -80,6 +82,11 @@ const gridReducer = (state: GridState, action: Action): GridState => {
       return { ...state, grid: randomizedGrid };
     }
 
+    case "EXPORT_GRID": {
+      // Store the exported data (year and days array)
+      return { ...state, exportedData: action.payload };
+    }
+
     default:
       return state;
   }
@@ -98,6 +105,7 @@ export const GridProvider: React.FC<{ children: React.ReactNode }> = ({
   const [state, dispatch] = useReducer(gridReducer, {
     grid: Array.from({ length: ROWS }, () => Array.from({ length: COLS }, () => null)),
     selectedYear: currentYear,
+    exportedData: null, // Initialize exportedData as null
   });
 
   return (

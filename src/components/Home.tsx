@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useGridContext } from "../context/GridContext";
 import CommitBoxContainer from "./CommitBoxContainer";
 import { Modal, ModalHeader, ModalBody } from "reactstrap"; // Importing Reactstrap modal components
+import ExportedDaysList from "./ExportedDaysList";
 
 const Home: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -75,6 +76,7 @@ const Home: React.FC = () => {
 
       {/* CommitBoxContainer */}
       <CommitBoxContainer />
+      <ExportedDaysList />
     </main>
   );
 };

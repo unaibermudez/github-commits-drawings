@@ -1,3 +1,4 @@
+import { exportGridData } from "../API/apiService";
 import { useGridContext } from "../context/GridContext";
 import CommitBox from "./CommitBox";
 import { useState } from "react";
@@ -24,15 +25,15 @@ const CommitBoxContainer: React.FC = () => {
 
   const handlePaintAllCells = () => {
     dispatch({ type: "PAINT_ALL_CELLS", payload: { value: 1 } });
-  }
+  };
 
   const handleRandomizeCells = () => {
-    dispatch({ type: "CLEAR_GRID" })
+    dispatch({ type: "CLEAR_GRID" });
     dispatch({ type: "RANDOMIZE_CELLS" });
   };
 
-  // Function to export the grid as JSON
-  const handleExportGrid = () => {
+  // Function to export the grid as JSON and store the exported data in the global state
+  const handleExportGrid = async () => {
     const gridData: number[] = [];
 
     // Iterate through columns first, then rows
@@ -50,6 +51,16 @@ const CommitBoxContainer: React.FC = () => {
     };
 
     console.log(JSON.stringify(json, null, 2)); // Print formatted JSON to console
+    dispatch({ type: "EXPORT_GRID", payload: json }); // Store the exported data in the global state
+    
+    // Call the mock API with the exported data using axios
+    try {
+      const apiResponse = await exportGridData(json);
+      console.log('Data exported successfully:', apiResponse);
+    } catch (error) {
+      console.error('Failed to export data:', error);
+    }
+
     handleClearGrid(); // Clear the grid after exporting
   };
 
@@ -58,7 +69,6 @@ const CommitBoxContainer: React.FC = () => {
       className="flex flex-col items-center"
       onMouseUp={handleMouseUp} // Stop dragging when mouse is released
     >
-
       {/* Grid Table */}
       <table className="table-fixed border-separate border-spacing-1">
         <thead>
@@ -67,11 +77,10 @@ const CommitBoxContainer: React.FC = () => {
             {months.map((month, index) => {
               const colSpans = [4, 4, 5, 4, 4, 5, 4, 5, 4, 4, 5, 5];
               return (
-              <th key={index} colSpan={colSpans[index]} className="text-white text-xs font-medium">{month}</th>
+                <th key={index} colSpan={colSpans[index]} className="text-white text-xs font-medium">{month}</th>
               );
             })}
           </tr>
-          
         </thead>
         <tbody>
           {weekDays.map((day, rowIndex) => (
