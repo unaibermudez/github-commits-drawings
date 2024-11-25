@@ -5,12 +5,18 @@ import { useState } from "react";
 const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const CommitBoxContainer: React.FC = () => {
-  const { state } = useGridContext();
+  const { state, dispatch } = useGridContext();
   const [isDragging, setIsDragging] = useState(false);
+
 
   // Mouse up event to stop dragging
   const handleMouseUp = () => {
     setIsDragging(false); // Stop dragging
+  };
+
+  // Handle the clear button click to reset the grid
+  const handleClearGrid = () => {
+    dispatch({ type: "CLEAR_GRID" });
   };
 
   return (
@@ -51,6 +57,12 @@ const CommitBoxContainer: React.FC = () => {
           ))}
         </tbody>
       </table>
+      <button
+        onClick={handleClearGrid}
+        className="bg-red-500 text-white px-4 py-2 rounded-md mb-4"
+      >
+        Clear Grid
+      </button>
     </div>
   );
 };
