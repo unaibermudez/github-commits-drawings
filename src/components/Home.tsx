@@ -15,10 +15,10 @@ const Home: React.FC = () => {
     dispatch({ type: "INITIALIZE_GRID", payload: { year } });
   };
   return (
-    <main className="bg-[#24292f] min-h-screen text-white flex flex-col items-center p-4">
+    <main className="bg-[#24292f] min-h-screen text-white flex flex-col items-center p-4 overflow-auto">
       <div className="w-full max-w-md mb-8">
-        <label htmlFor="year" className="block text-xl font-medium mb-2">
-          Selecciona un Año
+        <label htmlFor="year" className="block text-xl font-medium mb-2 text-center">
+          Select a year
         </label>
         <select
           id="year"

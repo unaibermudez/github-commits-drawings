@@ -8,7 +8,6 @@ const CommitBoxContainer: React.FC = () => {
   const { state, dispatch } = useGridContext();
   const [isDragging, setIsDragging] = useState(false);
 
-
   // Mouse up event to stop dragging
   const handleMouseUp = () => {
     setIsDragging(false); // Stop dragging
@@ -19,11 +18,35 @@ const CommitBoxContainer: React.FC = () => {
     dispatch({ type: "CLEAR_GRID" });
   };
 
+  // Function to export the grid as JSON
+  const handleExportGrid = () => {
+    const gridData: number[] = [];
+
+    // Iterate through columns first, then rows
+    for (let col = 0; col < state.grid[0].length; col++) {
+      for (let row = 0; row < state.grid.length; row++) {
+        const cellValue = state.grid[row][col];
+        if (cellValue === null) continue; // Skip empty cells
+        gridData.push(cellValue === 1 ? 1 : 0); // 1 for green, 0 for non-green
+      }
+    }
+
+    const json = {
+      year: state.selectedYear,
+      days: gridData, // Array of 1s and 0s representing the grid
+    };
+
+    console.log(JSON.stringify(json, null, 2)); // Print formatted JSON to console
+    handleClearGrid(); // Clear the grid after exporting
+  };
+
   return (
     <div
       className="flex flex-col items-center"
       onMouseUp={handleMouseUp} // Stop dragging when mouse is released
     >
+
+      {/* Grid Table */}
       <table className="table-fixed border-separate border-spacing-1">
         <thead>
           <tr>
@@ -57,12 +80,22 @@ const CommitBoxContainer: React.FC = () => {
           ))}
         </tbody>
       </table>
-      <button
-        onClick={handleClearGrid}
-        className="bg-red-500 text-white px-4 py-2 rounded-md mb-4"
-      >
-        Clear Grid
-      </button>
+      <div className="flex space-x-4 my-4">
+        <button
+          onClick={handleClearGrid}
+          className="bg-red-500 text-xl font-bold uppercase text-white px-4 py-2 rounded-md"
+        >
+          Clear Grid
+        </button>
+        <button
+          onClick={handleExportGrid}
+          className="bg-blue-500 text-xl font-bold uppercase text-white px-4 py-2 rounded-md"
+        >
+          Export Grid
+        </button>
+
+      </div>
+
     </div>
   );
 };

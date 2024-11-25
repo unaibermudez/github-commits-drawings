@@ -23,7 +23,6 @@ const CommitBox: React.FC<CommitBoxProps> = ({ row, col, isDragging, setIsDraggi
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault(); // Prevents text selection while dragging
     setIsDragging(true); // Start dragging
-    console
     toggleCell(); // Toggle the cell's state immediately
   };
 
@@ -34,7 +33,6 @@ const CommitBox: React.FC<CommitBoxProps> = ({ row, col, isDragging, setIsDraggi
 
   // Mouse enter event to continue dragging
   const handleMouseEnter = () => {
-    console.log("mouse enter", isDragging);
     if (isDragging) {
       toggleCell(); // Toggle cell while dragging
     }
