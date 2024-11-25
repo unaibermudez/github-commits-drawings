@@ -15,12 +15,11 @@ export const getTotalDaysInYear = (year: number): number => {
 };
 
 
-// utils.ts
 export const getDateFromGridPosition = (year: number, col: number, row: number): string => {
- 
+
     const firstDayOfYear = new Date(year, 0, 1);
     const shift = firstDayOfYear.getDay();
-     
+
     const dayInYear = col * 7 + (row + 1) - shift;
     const date = new Date(year, 0, dayInYear);
     const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
@@ -35,6 +34,4 @@ export const getDateFromGridPosition = (year: number, col: number, row: number):
         suffix = 'rd';
     }
     return `${formattedDate}${suffix}`;
-
-
-  };
+};

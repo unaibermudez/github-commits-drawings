@@ -1,6 +1,6 @@
 import { useGridContext } from "../context/GridContext";
 import CommitBox from "./CommitBox";
-import { useState} from "react";
+import { useState } from "react";
 
 const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const months = [
@@ -64,10 +64,14 @@ const CommitBoxContainer: React.FC = () => {
         <thead>
           <tr>
             <th></th>
-            {months.map((month, index) => (
-              <th key={index} colSpan={4} className="text-white text-xs font-medium">{month}</th>
-            ))}
+            {months.map((month, index) => {
+              const colSpans = [4, 4, 5, 4, 4, 5, 4, 5, 4, 4, 5, 5];
+              return (
+              <th key={index} colSpan={colSpans[index]} className="text-white text-xs font-medium">{month}</th>
+              );
+            })}
           </tr>
+          
         </thead>
         <tbody>
           {weekDays.map((day, rowIndex) => (
