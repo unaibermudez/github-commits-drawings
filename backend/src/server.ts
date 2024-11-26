@@ -1,5 +1,7 @@
 import express, { Request, Response } from 'express';
 import routes from './routes';
+const colors = require('colors');
+
 
 
 const app = express();
@@ -15,12 +17,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello, world!');
 });
 
-// Error handling middleware
-app.use((err: any, req: Request, res: Response, next: Function) => {
-    console.error(err.stack);
-    res.status(500).send('Something went wrong!');
-  });
 
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(colors.green(`Server is running on http://localhost:${port}`)); 
 });
