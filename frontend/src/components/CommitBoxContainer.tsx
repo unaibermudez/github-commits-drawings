@@ -1,5 +1,3 @@
-import { toast } from "react-toastify";
-import { exportGridData } from "../API/apiService";
 import { useGridContext } from "../context/GridContext";
 import CommitBox from "./CommitBox";
 import { useState } from "react";
@@ -53,6 +51,7 @@ const CommitBoxContainer: React.FC = () => {
 
     // console.log(JSON.stringify(json, null, 2)); // Print formatted JSON to console
     dispatch({ type: "EXPORT_GRID", payload: json }); // Store the exported data in the global state
+    dispatch({ type: "CLEAR_REPO_URL" }); // Clear the grid after exporting
     
     // Call the mock API with the exported data using axios
     // try {

@@ -22,7 +22,8 @@ type Action =
   | { type: "PAINT_ALL_CELLS"; payload: { value: 0 | 1 } }
   | { type: "RANDOMIZE_CELLS" }
   | { type: "EXPORT_GRID"; payload: { year: number; days: number[] } }
-  | { type: "SET_REPO_URL"; payload: string }; // New action for repo URL
+  | { type: "SET_REPO_URL"; payload: string } // New action for repo URL
+  | { type: "CLEAR_REPO_URL" }; // New action to clear repo URL
 
 // Reducer function
 const gridReducer = (state: GridState, action: Action): GridState => {
@@ -91,6 +92,10 @@ const gridReducer = (state: GridState, action: Action): GridState => {
 
     case "SET_REPO_URL": {
       return { ...state, repoUrl: action.payload };
+    }
+
+    case "CLEAR_REPO_URL": {	
+      return { ...state, repoUrl: null };	
     }
 
     default:

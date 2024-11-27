@@ -6,6 +6,7 @@ import ExportedDaysList from "./ExportedDaysList";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS for styling
 import RepoUrlInput from "./RepoUrlInput";
+import GeneratedScript from "./GeneratedScript";
 
 const Home: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -45,7 +46,6 @@ const Home: React.FC = () => {
 
   return (
     <main className="bg-[#24292f] min-h-screen text-white flex flex-col items-center p-4 overflow-auto">
-      {/* Year selection */}
       <div className="w-full max-w-md mb-8">
         <label htmlFor="year" className="block text-xl font-medium mb-2 text-center">
           Select a year
@@ -81,7 +81,10 @@ const Home: React.FC = () => {
       <ToastContainer />
       <CommitBoxContainer />
       <RepoUrlInput />
+
       {/* <ExportedDaysList /> */}
+      <GeneratedScript />
+
     </main>
   );
 };
