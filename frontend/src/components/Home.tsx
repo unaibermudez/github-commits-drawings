@@ -5,6 +5,7 @@ import { Modal, ModalHeader, ModalBody } from "reactstrap"; // Importing Reactst
 import ExportedDaysList from "./ExportedDaysList";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS for styling
+import RepoUrlInput from "./RepoUrlInput";
 
 const Home: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -79,7 +80,8 @@ const Home: React.FC = () => {
       {/* CommitBoxContainer */}
       <ToastContainer />
       <CommitBoxContainer />
-      <ExportedDaysList />
+      <RepoUrlInput />
+      {/* <ExportedDaysList /> */}
     </main>
   );
 };

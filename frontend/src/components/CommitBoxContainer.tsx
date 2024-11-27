@@ -55,12 +55,12 @@ const CommitBoxContainer: React.FC = () => {
     dispatch({ type: "EXPORT_GRID", payload: json }); // Store the exported data in the global state
     
     // Call the mock API with the exported data using axios
-    try {
-      const apiResponse = await exportGridData(json);
-      toast.success(apiResponse.message); // Show a success toast message
-    } catch (error) {
-      toast.error("Error exporting data. Please try again."); // Show an error toast message
-    }
+    // try {
+    //   const apiResponse = await exportGridData(json);
+    //   toast.success(apiResponse.message); // Show a success toast message
+    // } catch (error) {
+    //   toast.error("Error exporting data. Please try again."); // Show an error toast message
+    // }
 
     handleClearGrid(); // Clear the grid after exporting
   };
