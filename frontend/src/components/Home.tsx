@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useGridContext } from "../context/GridContext";
 import CommitBoxContainer from "./CommitBoxContainer";
 import { Modal, ModalHeader, ModalBody } from "reactstrap"; // Importing Reactstrap modal components
-import ExportedDaysList from "./ExportedDaysList";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS for styling
 import RepoUrlInput from "./RepoUrlInput";
@@ -82,7 +81,6 @@ const Home: React.FC = () => {
       <CommitBoxContainer />
       <RepoUrlInput />
 
-      {/* <ExportedDaysList /> */}
       <GeneratedScript />
 
     </main>
